@@ -1,0 +1,16 @@
+# Archivos generados por el sistema operativo
+.DS_Store
+
+# Carpeta de node_modules
+node_modules/
+
+# Archivo de configuración de npm
+npm-debug.log
+
+# Archivos de respaldo
+*.bak
+*.backup
+
+# Archivos temporales
+*.tmp
+*.temp

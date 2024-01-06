@@ -5,6 +5,7 @@ const authenticateToken = (req, res, next) => {
   const token = req.header('Authorization');
 
   if (!token) {
+    console.log('Token no proporcionado');
     return res.status(401).json({ message: 'Acceso no autorizado' });
   }
 

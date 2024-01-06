@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
+import passwordValidator from 'password-validator';
 
 const router = express.Router();
 
@@ -35,10 +36,24 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Crear un validador de contraseñas
+const passwordSchema = new passwordValidator();
+passwordSchema
+  .is().min(8)  // Mínimo 8 caracteres de longitud
+  .has().uppercase()  // Al menos una letra mayúscula
+  .has().lowercase()  // Al menos una letra minúscula
+  .has().digits(1)     // Al menos un dígito
+  .has().not().spaces();  // No permite espacios en blanco
+
 // Ruta para registrar un nuevo usuario
 router.post('/register', async (req, res) => {
   const { username, password } = req.body;
 
+  // Validar la contraseña usando el esquema definido
+  if (!passwordSchema.validate(password)) {
+    return res.status(400).json({ message: 'La contraseña no cumple con los requisitos de seguridad.' });
+  }
+  
   try {
     // Verificar si el usuario ya existe en la base de datos
     const existingUser = await User.findOne({ where: { username } });

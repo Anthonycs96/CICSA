@@ -7,11 +7,12 @@ import passwordValidator from 'password-validator';
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password,role } = req.body;
 
   try {
     // Buscar el usuario en la base de datos
     const user = await User.findOne({ where: { username } });
+    
 
     // Verificar si el usuario existe y la contraseña es correcta
     if (user) {
@@ -20,9 +21,7 @@ router.post('/login', async (req, res) => {
 
       if (isPasswordValid) {
         // Generar un token de autenticación
-        const token = jwt.sign({ userId: user.id }, 'secreto', { expiresIn: '1h' });
-        
-      console.log('Inicio de sesión exitoso')
+        const token = jwt.sign({ userId: user.id, role:user.role }, 'secreto', { expiresIn: '1h' });      console.log('Inicio de sesión exitoso')
         res.json({ message: 'Inicio de sesión exitoso', token });
       } else {
         res.status(401).json({ message: 'Credenciales inválidas' });
@@ -47,7 +46,7 @@ passwordSchema
 
 // Ruta para registrar un nuevo usuario
 router.post('/register', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password,role } = req.body;
 
   // Validar la contraseña usando el esquema definido
   if (!passwordSchema.validate(password)) {
@@ -68,6 +67,8 @@ router.post('/register', async (req, res) => {
     const newUser = await User.create({
       username,
       password: hashedPassword,
+      role: role || 'user',  // Utiliza el valor proporcionado o 'user' si no se proporciona
+      
     });
 
     res.status(201).json({ message: 'Usuario registrado exitosamente', user: newUser });

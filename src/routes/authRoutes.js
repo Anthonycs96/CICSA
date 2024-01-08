@@ -25,6 +25,7 @@ router.post('/login', async (req, res) => {
         res.json({ message: 'Inicio de sesión exitoso', token });
       } else {
         res.status(401).json({ message: 'Credenciales inválidas' });
+        res.status(404).json({ message: 'Credenciales inválidas' });
       }
     } else {
       res.status(401).json({ message: 'Credenciales inválidas' });

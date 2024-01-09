@@ -1,6 +1,5 @@
 // controllers/validatorController.js
 export const getValidatorData = (req, res) => {
-  console.log('que paso')
     // Lógica para obtener datos del primer validador
     // ...
     res.json({ message: 'Obtención de datos del primer validador' });

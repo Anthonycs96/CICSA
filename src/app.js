@@ -4,7 +4,7 @@ import express from 'express';
 
  import authRoutes from './routes/authRoutes.js'
  import protectedRoutes  from './routes/protectedRoutes.js'
- import validatorRoutes  from './routes/validatorRoutes.js'
+ import validatorporcentajeValidationRouterRoutes  from './routes/porcentajeValidationRouter.js'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -39,7 +39,7 @@ app.get('/',async (req, res, next) => {
 
   app.use('/auth', authRoutes);
 app.use('/protected', protectedRoutes);
-app.use('/validator', validatorRoutes);
+app.use('/validator', validatorporcentajeValidationRouterRoutes);
 
   app.listen(PORT, () => {
     console.log(`Servidor en ejecución en http://localhost:${PORT}`);

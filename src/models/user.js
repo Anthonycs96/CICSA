@@ -2,17 +2,23 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import sequelize from '../config/sequelizeConfig.js';
 
-const User = sequelize.define('users', {
+const User = sequelize.define('usuarios', {
+  UsuarioID: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   // Otras columnas...
-  username: {
+  NombreCompleto: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  password: {
+  Contraseña: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  role: {
+  RolID: {
     type: DataTypes.STRING,
     allowNull: false,
     defaultValue: 'user',

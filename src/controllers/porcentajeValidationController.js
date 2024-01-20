@@ -1,9 +1,16 @@
+import PorcentajeValidacion from '../models/PorcentajesValidacion.js';
 // controllers/validatorController.js
-export const getValidatorData = (req, res) => {
-    // Lógica para obtener datos del primer validador
-    // ...
-    res.json({ message: 'Obtención de datos del primer validador' });
-  };
+
+export const getValidatorData = async (req, res) => {
+  try {
+    const datosValidador = await PorcentajeValidacion.findAll();
+
+    res.json({ datosValidador });
+  } catch (error) {
+    console.error('Error al obtener datos del validador:', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
   
   export const postValidatorData = (req, res) => {
     // Lógica para manejar la petición POST del primer validador

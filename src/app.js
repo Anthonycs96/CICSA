@@ -3,7 +3,6 @@ import express from 'express';
  import sequelize  from './config/sequelizeConfig.js';
 
  import authRoutes from './routes/authRoutes.js'
- import protectedRoutes  from './routes/protectedRoutes.js'
  import validatorporcentajeValidationRouterRoutes  from './routes/porcentajeValidationRouter.js'
 
 const app = express();
@@ -38,7 +37,6 @@ app.get('/',async (req, res, next) => {
   app.use(ManejadorError);
 
   app.use('/auth', authRoutes);
-app.use('/protected', protectedRoutes);
 app.use('/validator', validatorporcentajeValidationRouterRoutes);
 
   app.listen(PORT, () => {

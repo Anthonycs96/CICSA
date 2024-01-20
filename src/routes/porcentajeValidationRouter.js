@@ -6,9 +6,9 @@ import * as porcentajeValidationController from '../controllers/porcentajeValida
 const router = express.Router();
 
 // Rutas protegidas para el primer validador
-router.get('/PorcentajesValidacion', authenticateAndAuthorize(['validator']), porcentajeValidationController.getValidatorData);
-router.post('/PorcentajesValidacion', authenticateAndAuthorize(['validator']), porcentajeValidationController.postValidatorData);
-router.put('/PorcentajesValidacion', authenticateAndAuthorize(['validator']), porcentajeValidationController.putValidatorData);
-router.delete('/PorcentajesValidacion', authenticateAndAuthorize(['validator']), porcentajeValidationController.deleteValidatorData);
+router.get('/PorcentajesValidacion', authenticateAndAuthorize(['2']), porcentajeValidationController.getValidatorData);
+router.post('/PorcentajesValidacion', authenticateAndAuthorize(['Validador']), porcentajeValidationController.postValidatorData);
+router.put('/PorcentajesValidacion', authenticateAndAuthorize(['Validador']), porcentajeValidationController.putValidatorData);
+router.delete('/PorcentajesValidacion', authenticateAndAuthorize(['Validador']), porcentajeValidationController.deleteValidatorData);
 
 export default router;

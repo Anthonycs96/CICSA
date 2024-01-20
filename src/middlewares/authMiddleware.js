@@ -19,7 +19,14 @@
           req.user = user;
 
           // Verificar roles
-          const userRoles = req.user.role;
+          //const userRoles = req.user.role;
+          const userRoles = req.user.role.toString();
+
+
+          // Convertir el ID del rol a string para la comparación
+    const userRoleIdString = userRoles.toString();
+          console.log(userRoleIdString)
+          console.log(userRoles)
           if (roles && roles.length > 0 && !roles.includes(userRoles)) {
             return res.status(403).json({ message: 'Acceso no autorizado2' });
           }

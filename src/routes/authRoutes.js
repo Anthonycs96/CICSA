@@ -47,7 +47,7 @@ passwordSchema
 // Ruta para registrar un nuevo usuario
 router.post('/register', async (req, res) => {
   const { NombreCompleto, Contraseña, RolID } = req.body;
-  console.log(req.body);
+  //console.log(req.body);
 
 
   // Validar la contraseña usando el esquema definido

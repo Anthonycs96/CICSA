@@ -3,7 +3,8 @@ import express from 'express';
  import sequelize  from './config/sequelizeConfig.js';
 
  import authRoutes from './routes/authRoutes.js'
- import validatorporcentajeValidationRouterRoutes  from './routes/porcentajeValidationRouter.js'
+ import expedientesRoutes from './routes/expedientesRouter.js'
+ import p_RegistradasRoutes from './routes/p_RegistradasRouter.js'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,7 +38,8 @@ app.get('/',async (req, res, next) => {
   app.use(ManejadorError);
 
   app.use('/auth', authRoutes);
-app.use('/validator', validatorporcentajeValidationRouterRoutes);
+app.use('/expedientes',expedientesRoutes );
+app.use('/pRegistradas',p_RegistradasRoutes)
 
   app.listen(PORT, () => {
     console.log(`Servidor en ejecución en http://localhost:${PORT}`);

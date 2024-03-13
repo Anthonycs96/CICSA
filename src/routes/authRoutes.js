@@ -2,16 +2,17 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
+import AsignacionRol from '../models/asignacionRol.js'; // Importa el modelo de asignación de roles
 import passwordValidator from 'password-validator';
 
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
-  const { NombreCompleto, Contraseña } = req.body;
+  const { Nombre_Usuario, Contraseña } = req.body;
 
   try {
     // Buscar el usuario en la base de datos
-    const user = await User.findOne({ where: { NombreCompleto } });
+    const user = await User.findOne({ where: { Nombre_Usuario } });
 
     // Verificar si el usuario existe y la contraseña es correcta
     if (user) {
@@ -19,9 +20,16 @@ router.post('/login', async (req, res) => {
       const isPasswordValid = await bcrypt.compare(Contraseña, user.Contraseña);
 
       if (isPasswordValid) {
+
+        // Obtener los roles del usuario utilizando la relación definida en los modelos
+        const roles = await AsignacionRol.findAll({ where: { ID_Usuario: user.ID_Usuario } });
+
+         // Obtener los IDs de los roles asociados al usuario
+         const rolesIds = roles.map(role => role.ID_Rol);
+
         // Generar un token de autenticación
-        const token = jwt.sign({ userId: user.id, role: user.RolID }, 'secreto', { expiresIn: '1h' });
-        console.log('Inicio de sesión exitoso');
+        const token = jwt.sign({ userId: user.id, rolesIds: rolesIds }, 'secreto', { expiresIn: '1h' });
+          
         res.json({ message: 'Inicio de sesión exitoso', token });
       } else {
         res.status(401).json({ message: 'Credenciales inválidas' });
@@ -46,8 +54,9 @@ passwordSchema
 
 // Ruta para registrar un nuevo usuario
 router.post('/register', async (req, res) => {
-  const { NombreCompleto, Contraseña, RolID } = req.body;
-  //console.log(req.body);
+  const { ID_Persona, Nombre_Usuario,Contraseña, Fecha_Inicio } = req.body;
+
+  console.log(req.body);
 
 
   // Validar la contraseña usando el esquema definido
@@ -57,7 +66,7 @@ router.post('/register', async (req, res) => {
 
   try {
     // Verificar si el usuario ya existe en la base de datos
-    const existingUser = await User.findOne({ where: { NombreCompleto } });
+    const existingUser = await User.findOne({ where: { ID_Persona } });
 
     if (existingUser) {
       return res.status(400).json({ message: 'El usuario ya existe' });
@@ -67,10 +76,13 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(Contraseña, 10);
 
     const newUser = await User.create({
-      NombreCompleto,
+      ID_Persona,
+      Nombre_Usuario,
       Contraseña: hashedPassword,
-      RolID: RolID || '0',  // Utiliza el valor proporcionado o '0' si no se proporciona
+      Fecha_Inicio,
     });
+
+    console.log(newUser)
 
     res.status(201).json({ message: 'Usuario registrado exitosamente', user: newUser });
   } catch (error) {

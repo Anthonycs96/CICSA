@@ -1,7 +1,7 @@
 // sequelizeConfig.mjs
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('LIQUIDACIONESDB', 'root', '76653060a', {
+const sequelize = new Sequelize('cicsav1db', 'root', '76653060a', {
   host: 'localhost',
   dialect: 'mysql',
 });

@@ -4,23 +4,34 @@
   const authenticateAndAuthorize = (roles) => {
     return (req, res, next) => {
       const token = req.header('Authorization');
+      
+      //console.log(req)
+
+      console.log(token)
 
       if (!token) {
         console.log('Token no proporcionado');
         return res.status(401).json({ message: 'Acceso no autorizado1' });
       }
 
-      jwt.verify(token, 'secreto', (err, user) => {
+      jwt.verify(token, 'secreto', (err, decodedToken) => {
         try {
           if (err) {
             throw err;
           }
 
-          req.user = user;
+          req.user = decodedToken;
+          console.log('esto buscas', decodedToken)
 
           // Verificar roles
           //const userRoles = req.user.role;
-          const userRoles = req.user.role.toString();
+          const userRoles = decodedToken.rolesIds ? decodedToken.rolesIds.toString() : null;
+
+
+          if (!userRoles) {
+              console.log('No se encontraron roles en el token');
+              return res.status(403).json({ message: 'Acceso no autorizado' });
+          }
 
 
           // Convertir el ID del rol a string para la comparación
